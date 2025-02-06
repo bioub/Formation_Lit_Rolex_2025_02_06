@@ -73,11 +73,9 @@ Créer un contrôleur `UsersController` dans le dossier `services`
 
 Y ajouter cette méthode :
 
-```
+```js
 async hostConnected() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users", {
-    signal: this.abortController.signal,
-  });
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
   this.items = await res.json();
   this.host.requestUpdate();
 }
