@@ -26,7 +26,7 @@ export class TopBarComponent extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: lightblue;
+      background-color: var(--my-bg-color, lightblue);
       padding: 1rem;
     }
 

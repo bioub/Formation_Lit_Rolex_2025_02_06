@@ -3,6 +3,7 @@ import { LitElement, html } from 'lit';
 export class SettingsComponent extends LitElement {
   handleSubmit(event) {
     event.preventDefault();
+    
   }
 
   render() {
