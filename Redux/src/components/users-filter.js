@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "lit";
+import { css, html, LitElement } from 'lit';
 
 export class UsersFilterComponent extends LitElement {
   static properties = {
@@ -7,13 +7,13 @@ export class UsersFilterComponent extends LitElement {
 
   constructor() {
     super();
-    this.filter = "";
+    this.filter = this.filter ?? '';
   }
 
   handleInput(event) {
     this.filter = event.target.value;
     this.dispatchEvent(
-      new CustomEvent("filter-changed", {
+      new CustomEvent('filter-changed', {
         detail: this.filter,
         bubbles: true,
         composed: true,
@@ -22,16 +22,9 @@ export class UsersFilterComponent extends LitElement {
   }
 
   render() {
-    return html`
-      <input
-        type="text"
-        placeholder="Filter users"
-        .value=${this.filter}
-        @input=${this.handleInput}
-      />
-    `;
+    return html` <input type="text" placeholder="Filter users" .value=${this.filter} @input=${this.handleInput} /> `;
   }
-  
+
   static styles = css`
     input {
       box-sizing: border-box;
@@ -42,4 +35,4 @@ export class UsersFilterComponent extends LitElement {
   `;
 }
 
-customElements.define("my-users-filter", UsersFilterComponent);
+customElements.define('my-users-filter', UsersFilterComponent);

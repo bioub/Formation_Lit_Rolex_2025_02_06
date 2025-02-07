@@ -3,21 +3,25 @@ import '../components/users-filter.js';
 import { LitElement, css, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { di } from '../di';
-import { UsersController } from '../services/UsersController';
+import { Compose } from '../mixins/compose.js';
+import { WithRouter } from '../mixins/with-router.js';
+import { WithStore } from '../mixins/with-store.js';
+import { fetchUsers, updateFilter } from '../store/actions.js';
 
-export class UsersComponent extends LitElement {
-  router = di.inject('router');
-
+export class UsersComponent extends Compose(LitElement, WithRouter, WithStore) {
   static properties = {
     filter: { type: String },
+    users: { type: Object, state: true },
   };
 
-  users = new UsersController(this);
+  connectedCallback() {
+    super.connectedCallback();
+    this.store.dispatch(fetchUsers());
+  }
 
-  constructor() {
-    super();
-    this.filter = '';
+  stateChanged(state) {
+    this.filter = state.users.filter;
+    this.users = state.users;
   }
 
   handleClick(event) {
@@ -27,20 +31,16 @@ export class UsersComponent extends LitElement {
   }
 
   handleFilterChanged(event) {
-    this.filter = event.detail;
+    this.store.dispatch(updateFilter(event.detail));
   }
 
   render() {
     return html`
       <div class="left">
-        <my-users-filter
-          @filter-changed=${this.handleFilterChanged}
-        ></my-users-filter>
+        <my-users-filter .filter=${this.filter} @filter-changed=${this.handleFilterChanged}></my-users-filter>
         <nav>
-          ${this.users.items
-            .filter((u) =>
-              u.name.toLowerCase().includes(this.filter.toLowerCase()),
-            )
+          ${this.users.data
+            .filter((u) => u.name.toLowerCase().includes(this.filter.toLowerCase()))
             .map(
               (user) => html`
                 <a

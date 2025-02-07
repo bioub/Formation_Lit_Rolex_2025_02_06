@@ -1,16 +1,16 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html } from 'lit';
 
-import { di } from "../di";
-import { SettingsStore } from "../services/SettingsStore";
+import { Compose } from '../mixins/compose';
+import { WithRouter } from '../mixins/with-router';
+import { WithStore } from '../mixins/with-store';
 
-export class TopBarComponent extends LitElement {
-  router = di.inject("router");
-  /** @type {SettingsStore} */
-  store = di.inject("settings-store");
+export class TopBarComponent extends Compose(LitElement, WithRouter, WithStore) {
+  static properties = {
+    _title: { type: String, state: true },
+  };
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.store.addHost(this);
+  stateChanged(state) {
+    this._title = state.title;
   }
 
   handleClick(event) {
@@ -20,7 +20,7 @@ export class TopBarComponent extends LitElement {
 
   render() {
     return html`
-      <h1>${this.store.state.title}</h1>
+      <h1>${this._title}</h1>
       <nav>
         <a href="/" @click=${this.handleClick}>Home</a>
         <a href="/settings" @click=${this.handleClick}>Settings</a>
@@ -54,4 +54,4 @@ export class TopBarComponent extends LitElement {
   `;
 }
 
-customElements.define("my-top-bar", TopBarComponent);
+customElements.define('my-top-bar', TopBarComponent);
