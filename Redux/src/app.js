@@ -19,7 +19,7 @@ export class AppComponent extends LitElement {
     return html`
       <my-top-bar></my-top-bar>
       <main>
-        <rlx-flx-router-view .router=${this._routerProvider.value}></rlx-flx-router-view>
+        <rlx-flx-router-view .router=${this.router}></rlx-flx-router-view>
       </main>
     `;
   }

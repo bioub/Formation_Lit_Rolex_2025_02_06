@@ -28,7 +28,6 @@ export class SettingsComponent extends LitElement {
             type="text"
             id="title"
             name="title"
-            @input=${(e) => this.title = e.target.value}
             .value=${this.store.state.title}
           />
         </div>
