@@ -2,6 +2,7 @@ import '../components/users-filter.js';
 
 import { LitElement, css, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { repeat } from 'lit/directives/repeat.js';
 
 import { di } from '../di';
 import { isEven } from '../utils/number.js';
@@ -16,7 +17,7 @@ export class UsersComponent extends LitElement {
 
   constructor() {
     super();
-    this.searchTerm = '';
+    this.searchTerm = 'p';
     this.users = [
       { id: 1, name: 'Pierre' },
       { id: 2, name: 'Paul' },
@@ -34,19 +35,27 @@ export class UsersComponent extends LitElement {
     this.searchTerm = event.detail;
   }
 
-  
-
   render() {
     return html`
       <div class="left">
-        <my-users-filter></my-users-filter>
+        <my-users-filter
+          filter=${this.searchTerm}
+          @filter-changed=${this.handleFilterChanged}
+        ></my-users-filter>
         <nav>
-          ${this.users.map((user) => html`<a class=${classMap({active: isEven(user.id)})} href="#"> ${user.name} </a>`)}
+          ${repeat(
+              this.users.filter((u) =>
+                u.name.toLowerCase().includes(this.searchTerm.toLowerCase()),
+              ),
+              (user) => user.id,
+              (user) =>
+                html`<a class=${classMap({ active: isEven(user.id) })} href="#">
+                  ${user.name}</a
+                >`,
+          )}
         </nav>
       </div>
-      <div class="right">
-        
-      </div>
+      <div class="right"></div>
     `;
   }
 
@@ -67,7 +76,6 @@ export class UsersComponent extends LitElement {
     .left a.active {
       background-color: var(--my-bg-color, lightblue);
     }
-
   `;
 }
 
