@@ -31,7 +31,7 @@ export class UsersComponent extends LitElement {
   }
 
   handleFilterChanged(event) {
-    this.filter = event.detail;
+    this.searchTerm = event.detail;
   }
 
   

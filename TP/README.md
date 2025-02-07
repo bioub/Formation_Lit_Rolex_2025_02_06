@@ -64,8 +64,10 @@ Ajouter ensuite ce filtre au niveau du `.map` pour n'afficher que les users dont
 ```js
 .filter((u) =>
   u.name.toLowerCase().includes(this.searchTerm.toLowerCase()),
-)
+).map(...)
 ```
+
+BONUS : utiliser la directive repeat plutôt que .map
 
 ## Exercice 5
 
